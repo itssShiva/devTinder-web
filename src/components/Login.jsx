@@ -1,8 +1,46 @@
-import React from 'react'
-
+import React, { useState } from 'react'
+import axios from 'axios';
 const Login = () => {
+  const[email,setEmail]=useState("");
+  const[password,setPassword]=useState("");
+
+
+  const clickHandler=async()=>{
+    try {
+      const result=await axios.post("http://localhost:3000/login",{
+      emailId:email,
+      password
+    },
+  {withCredentials:true})
+
+  console.log(result.data);
+    } catch (error) {
+      console.log(error)
+    }
+  }
   return (
-    <div>Login</div>
+    <div className='flex justify-center my-25'>
+      <div className="card bg-base-300 w-96 shadow-sm">
+  <div className="card-body">
+    <h2 className="card-title text-5xl mb-4 underline flex justify-center">Login</h2>
+    <fieldset className="fieldset">
+  <legend className="fieldset-legend text-2xl">Email ID: </legend>
+  <input type="text" className="input" placeholder="Enter Your Email address" onChange={(e)=>(setEmail(e.target.value))} value={email}/>
+  
+</fieldset>
+    <fieldset className="fieldset">
+  <legend className="fieldset-legend text-2xl">Password: </legend>
+  <input type="password" className="input" placeholder="Enter Your Email address" onChange={(e)=>(setPassword(e.target.value))} value={password}/>
+  
+</fieldset>
+    <div className="card-action
+    s flex justify-center ">
+      <button className="btn btn-primary mt-2" onClick={clickHandler}>Login</button>
+    </div>
+  </div>
+</div>
+    </div>
+    
   )
 }
 
