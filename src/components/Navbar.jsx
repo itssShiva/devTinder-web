@@ -1,9 +1,10 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useAsyncValue, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { BASE_URL } from "../utils/Constant";
 import { removeUser } from "../utils/userSlice";
+import { toast } from "react-toastify";
 const Navbar = () => {
   const user=useSelector((store)=>store.user)
   const navigate=useNavigate();
@@ -11,12 +12,13 @@ const Navbar = () => {
   const handleLogout=async()=>{
 try {
       const response=await axios.post(BASE_URL+'/logout',{},{withCredentials:true,});
-      console.log(response);
       dispatch(removeUser());
+      toast.info("Logout successfully");
       navigate('/login');
 
 } catch (error) {
   console.log(error)
+  toast.error(error.message)
 }    
   }
   return (
