@@ -29,7 +29,7 @@ const Body = () => {
     fetchUser();
   },[])
   return (
-    <div>
+    <div >
 
     <Navbar/>
     <Outlet/>

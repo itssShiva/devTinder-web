@@ -14,7 +14,7 @@ const Profile = () => {
   const[age,setAge]=useState("");
   const[skills,setSkills]=useState("");
   const[photoUrl,setPhotoUrl]=useState("");
-  const[gender,setGender]=useState("");
+  const[gender,setGender]=useState("male");
   const[about,setAbout]=useState("");
   const[error,setError]=useState();
 
@@ -74,6 +74,7 @@ const Profile = () => {
     <fieldset className="fieldset">
   <legend className="fieldset-legend text-xl">Gender: </legend>
   <select id="options" value={gender} onChange={(e)=>(setGender(e.target.value))} className='bg-base-300 text-white input'>
+   
         <option value="male">Male</option>
         <option value="female">Female</option>
         <option value="others">Others</option>

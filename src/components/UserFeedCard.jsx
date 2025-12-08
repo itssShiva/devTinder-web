@@ -2,6 +2,7 @@ import React from 'react'
 
 const UserFeedCard = ({user}) => {
     const {firstName,lastName,photoUrl,about,skills,age,gender}=user
+  
    
       return (
     <div className="card bg-base-300 w-96 shadow-sm">
