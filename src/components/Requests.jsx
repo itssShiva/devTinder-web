@@ -2,7 +2,8 @@ import axios from 'axios'
 import React, { useEffect } from 'react'
 import { BASE_URL } from '../utils/Constant'
 import { useDispatch, useSelector } from 'react-redux'
-import { addRequests } from '../utils/requestSlice'
+import { addRequests, removeRequests } from '../utils/requestSlice'
+import { toast } from 'react-toastify'
 
 const Requests = () => {
 
@@ -11,7 +12,14 @@ const Requests = () => {
 
     const rejectHandler=async(id)=>{
         const res=await axios.post(BASE_URL+"/request/review/rejected/"+id,{},{withCredentials:true})
-        console.log(res)
+        dispatch(removeRequests(id));
+        toast.error("Request Rejected!!")
+    }
+
+    const acceptHandler=async(id)=>{
+        const res=await axios.post(BASE_URL+"/request/review/accepted/"+id,{},{withCredentials:true})
+        dispatch(removeRequests(id))
+        toast.success("Request Accepted!!");
     }
     const fetchRequests=async()=>{
         
@@ -24,7 +32,7 @@ const Requests = () => {
     }
 
     useEffect(()=>{fetchRequests()},[]);
-    if(requests.length<1) return null;
+    if(requests.length<1) return  <h1 className='flex justify-center my-40 text-3xl underline'>No Requests Found 💔</h1>;
 
   return (
     <div className='flex flex-col  items-center my-25 gap-20 '>
@@ -40,7 +48,7 @@ const Requests = () => {
             <p>{user.fromUserId.about}</p>
              <div className='flex justify-between gap-15 '>
                 <button className="btn btn-outline btn-secondary" onClick={()=>rejectHandler(user._id)}>Reject</button>
-                <button className="btn btn-outline btn-success">Accept</button>
+                <button className="btn btn-outline btn-success" onClick={()=>acceptHandler(user._id)}>Accept</button>
                 
             </div>
             </div>

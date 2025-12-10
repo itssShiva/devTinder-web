@@ -22,8 +22,8 @@
         },[])
 
         if(!connections) return;
-        if(connections.length===0) return <h1>No Connections Found</h1>
-        
+        if(connections.length===0) return   <> <h1 className='flex justify-center my-40 text-3xl underline'>No Connections Found 💔</h1>
+        </>
     return (
         
         <div className='flex justify-center items-center flex-col gap-4 mt-2 my-4 pb-10'>
