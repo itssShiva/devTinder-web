@@ -11,7 +11,7 @@ const Feed = () => {
   const feed=useSelector((store)=>store.feed);
   const getFeed=async()=>{
     try {
-      if(feed&& feed.length>0) return;
+      if(feed &&feed.length>0) return ;
       const res= await axios.get(BASE_URL+"/feed",{withCredentials:true});
   
       dispatch(addFeed(res?.data))
@@ -24,6 +24,7 @@ const Feed = () => {
   useEffect(()=>{
     getFeed();
   },[])
+  if(feed.length<1) return  <h1 className='flex justify-center my-40 text-3xl underline'>Nothing Left 💔</h1>;
   
   return (
     <div className='flex justify-center my-10'>

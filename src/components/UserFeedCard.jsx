@@ -1,7 +1,31 @@
+import axios from 'axios'
 import React from 'react'
+import { BASE_URL } from '../utils/Constant'
+import { useDispatch } from 'react-redux'
+import { removeFeed } from '../utils/feedSlice'
 
 const UserFeedCard = ({user}) => {
     const {firstName,lastName,photoUrl,about,skills,age,gender}=user
+    const dispatch=useDispatch();
+    const ignoreHandler=async(id)=>{
+   try {
+       const res=await axios.post(BASE_URL+"/request/send/ignored/"+id,{},{withCredentials:true})
+      dispatch(removeFeed(id));
+   } catch (error) {
+    console.log(error);
+   }  
+    }
+
+
+    const  interestedHandler=async(id)=>{
+      try {
+        const res=await axios.post(BASE_URL+"/request/send/interested/"+id,{},{withCredentials:true})
+      dispatch(removeFeed(id));
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
   
    
       return (
@@ -18,8 +42,8 @@ const UserFeedCard = ({user}) => {
     <p>{about}</p>
     {skills&&<p>{skills}</p>}
     <div className="card-actions justify-between">
-      <button className="btn btn-primary">Ignore</button>
-      <button className="btn btn-secondary">Interested</button>
+      <button className="btn btn-primary" onClick={()=>ignoreHandler(user._id)}>Ignore</button>
+      <button className="btn btn-secondary" onClick={()=>interestedHandler(user._id)}>Interested</button>
     </div>
   </div>
 </div>

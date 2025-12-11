@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { addUser } from '../utils/userSlice';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { BASE_URL } from '../utils/Constant'; 
 import { toast } from 'react-toastify';
 const Login = () => {
@@ -25,6 +25,7 @@ const Login = () => {
   dispatch(addUser(result.data));
   toast.success("Login successfully");
   navigate('/');
+  window.location.reload();
     } catch (error) {
      setError(error.response.data);
     }
@@ -49,6 +50,7 @@ const Login = () => {
     s flex justify-center ">
       <button className="btn btn-primary mt-2" onClick={clickHandler}>Login</button>
     </div>
+    <Link className="fieldset-legend text-xl undeline mx-auto underline hover:text-blue-200 transition duration-300" to={'/signup'}>Create new Account </Link>
   </div>
 </div>
     </div>
