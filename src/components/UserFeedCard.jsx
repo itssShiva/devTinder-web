@@ -25,8 +25,6 @@ const UserFeedCard = ({user}) => {
         console.log(error);
       }
     }
-
-  
    
       return (
     <div className="card bg-base-300 w-96 shadow-sm">
