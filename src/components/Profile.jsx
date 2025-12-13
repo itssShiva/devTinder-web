@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import UserFeedCard from './userFeedCard';
+import UserFeedCard from './UserFeedCard';
 import axios from 'axios';
 import { BASE_URL } from '../utils/Constant';
 import { addUser } from '../utils/userSlice';
