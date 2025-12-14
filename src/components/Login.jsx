@@ -6,8 +6,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { BASE_URL } from '../utils/Constant'; 
 import { toast } from 'react-toastify';
 const Login = () => {
-  const[email,setEmail]=useState("virat@gmail.com");
-  const[password,setPassword]=useState("Garena@1");
+  const[email,setEmail]=useState("");
+  const[password,setPassword]=useState("");
   const [error,setError]=useState("");
   const dispatch=useDispatch();
   const navigate=useNavigate();
