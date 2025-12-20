@@ -10,6 +10,10 @@ import Feed from "./components/Feed.jsx";
 import Connections from "./components/Connections.jsx";
 import Requests from "./components/Requests.jsx";
 import Signup from "./components/Signup.jsx";
+import Shipping from "./components/Shipping.jsx";
+import TermsAndConditions from "./components/TermsAndConditions.jsx";
+import Privacy from "./components/Privacy.jsx";
+import ContactUs from "./components/ContactUs.jsx";
 
 function App() {
   return (
@@ -21,11 +25,14 @@ function App() {
         <Route path='/' element={<Body/>}>
         <Route path='/' element={<Feed/>}/>
           <Route path='/login' element={<Login/>}/>
-          <Route path='/signup' element={<Signup/>}/>
-          
+          <Route path='/signup' element={<Signup/>}/> 
           <Route path='/profile' element={<Profile/>}/>
           <Route path='/connections' element={<Connections/>}/>
           <Route path='/requests' element={<Requests/>}/>
+          <Route path='/shipping' element={<Shipping/>}/>
+          <Route path='/terms&conditions' element={<TermsAndConditions/>}/>
+          <Route path='/privacy' element={<Privacy/>}/>
+          <Route path='/contactus' element={<ContactUs/>}/>
           </Route>
       </Routes>
     </BrowserRouter>
