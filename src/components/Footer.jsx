@@ -31,6 +31,9 @@ const Footer = () => {
     <a>
       <Link to={'/contactus'} className='underline'>ContactUs</Link>
     </a>
+    <a>
+      <Link to={'/refunds'} className='underline'>Refunds</Link>
+    </a>
   </nav>
 </footer>
   )

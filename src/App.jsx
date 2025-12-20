@@ -14,6 +14,7 @@ import Shipping from "./components/Shipping.jsx";
 import TermsAndConditions from "./components/TermsAndConditions.jsx";
 import Privacy from "./components/Privacy.jsx";
 import ContactUs from "./components/ContactUs.jsx";
+import Refunds from "./components/Refunds.jsx";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
           <Route path='/terms&conditions' element={<TermsAndConditions/>}/>
           <Route path='/privacy' element={<Privacy/>}/>
           <Route path='/contactus' element={<ContactUs/>}/>
+          <Route path='/refunds' element={<Refunds/>}/>
           </Route>
       </Routes>
     </BrowserRouter>
