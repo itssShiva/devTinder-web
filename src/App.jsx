@@ -15,6 +15,7 @@ import TermsAndConditions from "./components/TermsAndConditions.jsx";
 import Privacy from "./components/Privacy.jsx";
 import ContactUs from "./components/ContactUs.jsx";
 import Refunds from "./components/Refunds.jsx";
+import Premium from "./components/Premium.jsx";
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
           <Route path='/privacy' element={<Privacy/>}/>
           <Route path='/contactus' element={<ContactUs/>}/>
           <Route path='/refunds' element={<Refunds/>}/>
+          <Route path='/premium' element={<Premium/>}/>
           </Route>
       </Routes>
     </BrowserRouter>
