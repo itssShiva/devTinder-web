@@ -43,7 +43,7 @@ const Premium = () => {
   <div className="card-body">
     <div className="flex justify-between">
       <h2 className="text-3xl font-bold">Silver Membership</h2>
-      <span className="text-xl">₨.2/mo</span>
+      <span className="text-xl">₨.300</span>
     </div>
     <ul className="mt-6 flex flex-col gap-2 text-xs">
       <li>
@@ -75,7 +75,7 @@ const Premium = () => {
     <span className="badge badge-xs badge-warning">Most Popular</span>
     <div className="flex justify-between">
       <h2 className="text-3xl font-bold">Gold Membership</h2>
-      <span className="text-xl">₨.10/mo</span>
+      <span className="text-xl">₨.700</span>
     </div>
     <ul className="mt-6 flex flex-col gap-2 text-xs">
       <li>
