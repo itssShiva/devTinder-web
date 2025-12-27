@@ -1,9 +1,27 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { BASE_URL } from '../utils/Constant'
 import axios from 'axios'
 
 
 const Premium = () => {
+    
+  const[isUserPremium,setUserPremium]=useState(false);
+
+  useEffect(()=>{verifyPremiumUser()},[]);
+  const verifyPremiumUser=async()=>{
+    const res=await axios.get(BASE_URL+'/premium/verify',{
+      withCredentials:true,
+    });
+
+    if(res?.data?.isPremium){
+      setUserPremium(true);
+    }
+  }
+
+
+
+
+
 
   const handleBuy=async(type)=>{
     const res=await axios.post(BASE_URL+'/payment/create',{
@@ -30,6 +48,7 @@ const Premium = () => {
         theme: {
           color: '#1e1e1e'
         },
+        handler:verifyPremiumUser
       };
 
 
@@ -37,7 +56,7 @@ const Premium = () => {
       rzp.open();
 
   }
-  return (
+  return  isUserPremium ?("You are already a premium user"):(
     <div className='flex justify-center my-43 gap-10'>
         <div className="card w-96 bg-base-300 shadow-sm max-h-[500px]">
   <div className="card-body">
