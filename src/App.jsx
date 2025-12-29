@@ -16,6 +16,7 @@ import Privacy from "./components/Privacy.jsx";
 import ContactUs from "./components/ContactUs.jsx";
 import Refunds from "./components/Refunds.jsx";
 import Premium from "./components/Premium.jsx";
+import Chat from "./components/Chat.jsx";
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
           <Route path='/contactus' element={<ContactUs/>}/>
           <Route path='/refunds' element={<Refunds/>}/>
           <Route path='/premium' element={<Premium/>}/>
+          <Route path='/chat/:targetUserId' element={<Chat/>}/>
           </Route>
       </Routes>
     </BrowserRouter>

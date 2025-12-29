@@ -3,6 +3,7 @@
     import axios from 'axios'
     import { useDispatch, useSelector } from 'react-redux'
     import { addConnections } from '../utils/connectionSlice'
+import { Link } from 'react-router-dom'
 
 
     const Connections = () => {
@@ -26,10 +27,10 @@
         </>
     return (
         
-        <div className='flex justify-center items-center flex-col gap-4 mt-2 my-4 pb-10'>
+        <div className='flex justify-center items-center flex-col gap-4 mt-2 my-4 pb-10 '>
 
         { connections.map((user)=>(
-                <div className="card card-side bg-base-300 shadow-sm max-w-[400px] min-w-[500px] max-h-[300px]" key={user._id}>
+                <div className="card card-side bg-base-300 shadow-sm max-w-[400px] min-w-[500px] max-h-[300px] p-5" key={user._id}>
     <figure className='h-[100px] w-[100px] rounded-full my-8 ml-4'>
         <img
         src={user.photoUrl}
@@ -41,8 +42,8 @@
         <p>Gender: {user.gender}</p>
         <p >About: {user.about}</p>    
         <p >Skills: {user.skills}</p>    
-
     </div>
+    <Link to={'/chat/'+user._id}><button className='mx-auto mt-[100px] btn btn-secondary '>Chat</button></Link>
     </div>
             ))}
 
