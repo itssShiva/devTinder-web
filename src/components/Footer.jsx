@@ -19,21 +19,21 @@ const Footer = () => {
     <p>Copyright © {new Date().getFullYear()} - All right reserved</p>
   </aside>
   <nav className="grid-flow-col gap-4 md:place-self-center md:justify-self-end">
-    <a>
+   
       <Link to={'terms&conditions'} className=' underline'>Terms & conditions</Link>
-    </a>
-    <a>
+    
+   
       <Link to={'/privacy'} className=' underline'>Privacy</Link>
-    </a>
-    <a>
+   
+ 
       <Link to={'/shipping'} className=' underline'>Shipping</Link>
-    </a>
-    <a>
+ 
+
       <Link to={'/contactus'} className='underline'>ContactUs</Link>
-    </a>
-    <a>
+   
+  
       <Link to={'/refunds'} className='underline'>Refunds</Link>
-    </a>
+   
   </nav>
 </footer>
   )
