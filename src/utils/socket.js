@@ -1,5 +1,6 @@
-import io from 'socket.io-client'
 import {BASE_URL} from './Constant'
+import io from "socket.io-client";
+
 
 export const createSocketConnection=()=>{
     if(location.hostname=='localhost'){
