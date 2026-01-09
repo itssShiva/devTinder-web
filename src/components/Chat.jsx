@@ -59,16 +59,7 @@ const Chat = () => {
     setMessages((prev) => [...prev, messageData]);
     setNewMessage("");
 
-    // Optional: Send to backend (if you have POST route)
-    try {
-      await axios.post(
-        `${BASE_URL}/chat/${targetUserId}`,
-        { newMessage },
-        { withCredentials: true }
-      );
-    } catch (error) {
-      console.error(error);
-    }
+   
   };
 
   return (
