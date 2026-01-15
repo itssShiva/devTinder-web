@@ -10,12 +10,8 @@ import Feed from "./components/Feed.jsx";
 import Connections from "./components/Connections.jsx";
 import Requests from "./components/Requests.jsx";
 import Signup from "./components/Signup.jsx";
-import Shipping from "./components/Shipping.jsx";
-import TermsAndConditions from "./components/TermsAndConditions.jsx";
-import Privacy from "./components/Privacy.jsx";
-import ContactUs from "./components/ContactUs.jsx";
-import Refunds from "./components/Refunds.jsx";
-import Premium from "./components/Premium.jsx";
+import Premium from "./components/Premium.jsx"
+
 import Chat from "./components/Chat.jsx";
 
 function App() {
@@ -32,12 +28,9 @@ function App() {
           <Route path='/profile' element={<Profile/>}/>
           <Route path='/connections' element={<Connections/>}/>
           <Route path='/requests' element={<Requests/>}/>
-          <Route path='/shipping' element={<Shipping/>}/>
-          <Route path='/terms&conditions' element={<TermsAndConditions/>}/>
-          <Route path='/privacy' element={<Privacy/>}/>
-          <Route path='/contactus' element={<ContactUs/>}/>
-          <Route path='/refunds' element={<Refunds/>}/>
           <Route path='/premium' element={<Premium/>}/>
+        
+          
           <Route path='/chat/:targetUserId' element={<Chat/>}/>
           </Route>
       </Routes>

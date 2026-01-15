@@ -5,61 +5,57 @@ import axios from "axios";
 import { BASE_URL } from "../utils/Constant";
 import { removeUser } from "../utils/userSlice";
 import { toast } from "react-toastify";
+
 const Navbar = () => {
-  const user=useSelector((store)=>store.user)
-  const navigate=useNavigate();
-  const dispatch=useDispatch();
-  const handleLogout=async()=>{
-try {
-      const response=await axios.post(BASE_URL+'/logout',{},{withCredentials:true,});
+  const user = useSelector((store) => store.user);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const handleLogout = async () => {
+    try {
+      await axios.post(BASE_URL + '/logout', {}, { withCredentials: true });
       dispatch(removeUser());
       toast.info("Logout successfully");
       navigate('/login');
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+    }
+  };
 
-} catch (error) {
-  console.log(error)
-  toast.error(error.message)
-}    
-  }
   return (
-    
- <div>
-      <div className="navbar bg-base-300 shadow-sm">
-        <div className="flex-1">
-          {user?(<Link to={'/'} className="btn btn-ghost text-xl"> 👩‍💻DevTinder</Link>):(<Link to={'/login'} className="btn btn-ghost text-xl"> 👩‍💻DevTinder</Link>)}
-        </div>
-        {user&&<div className="flex gap-2">
-          <div className="dropdown dropdown-end mx-8">
+    <div className="navbar bg-base-300 shadow-sm px-4 sm:px-6 lg:px-8">
+      <div className="flex-1">
+        <Link to={user ? '/' : '/login'} className="btn btn-ghost text-lg sm:text-xl">
+          👩‍💻 DevTinder
+        </Link>
+      </div>
+
+      {user && (
+        <div className="flex items-center gap-2">
+          <div className="dropdown dropdown-end">
             <div
               tabIndex={0}
               role="button"
               className="btn btn-ghost btn-circle avatar"
             >
-            {user?(<div className="w-10 rounded-full">
+              <div className="w-10 sm:w-12 rounded-full">
                 <img
                   alt="User Photo"
-                  src={user.photoUrl}
+                  src={user.photoUrl || "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Heart_coraz%C3%B3n.svg/195px-Heart_coraz%C3%B3n.svg.png?20110326231420"}
                 />
-              </div>):(<div className="w-10 rounded-full">
-                <img
-                  alt="User Photo"
-                  src={"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Heart_coraz%C3%B3n.svg/195px-Heart_coraz%C3%B3n.svg.png?20110326231420"}
-                />
-              </div>)}
+              </div>
             </div>
+
             <ul
               tabIndex="-1"
-              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
+              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-50 mt-3 w-52 p-2 shadow"
             >
               <li>
-                <Link to={'/'} className="justify-between">
-                  Home
-                </Link>
+                <Link to={'/'} className="justify-between">Home</Link>
               </li>
               <li>
-                <Link to={'/profile'} className="justify-between">
-                  Profile
-                </Link>
+                <Link to={'/profile'} className="justify-between">Profile</Link>
               </li>
               <li>
                 <Link to={'/connections'}>Connections</Link>
@@ -71,12 +67,12 @@ try {
                 <Link to={'/premium'}>Premium</Link>
               </li>
               <li>
-                <a onClick={handleLogout}>Logout</a>
+                <button onClick={handleLogout} className="w-full text-left">Logout</button>
               </li>
             </ul>
           </div>
-        </div>}
-      </div>
+        </div>
+      )}
     </div>
   );
 };
