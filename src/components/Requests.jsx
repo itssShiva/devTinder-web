@@ -7,6 +7,13 @@ import { toast } from 'react-toastify'
 import { motion } from 'framer-motion'
 import { Bell, Check, X, Code2 } from 'lucide-react'
 
+// skills can be a string or an array from the backend
+const toSkillsArray = (skills) => {
+  if (!skills) return [];
+  if (Array.isArray(skills)) return skills;
+  return skills.split(',').map((s) => s.trim()).filter(Boolean);
+};
+
 const containerVariants = {
   hidden: {},
   show: { transition: { staggerChildren: 0.09 } },
@@ -57,7 +64,6 @@ const Requests = () => {
 
   return (
     <div className="min-h-[calc(100vh-80px)] px-4 sm:px-6 lg:px-8 py-10 relative overflow-hidden">
-      {/* Background blobs */}
       <div className="absolute top-10 right-10 w-72 h-72 bg-fuchsia-400/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-10 left-10 w-96 h-96 bg-violet-400/10 rounded-full blur-3xl pointer-events-none" />
 
@@ -72,15 +78,11 @@ const Requests = () => {
           <p className="text-slate-500 text-sm">{requests.length} pending request{requests.length !== 1 ? 's' : ''}</p>
         </motion.div>
 
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="show"
-          className="flex flex-col gap-4"
-        >
+        <motion.div variants={containerVariants} initial="hidden" animate="show" className="flex flex-col gap-4">
           {requests.map((user) => {
             const sender = user.fromUserId;
-            const skillList = sender?.skills ? sender.skills.split(',').slice(0, 3) : [];
+            const skillList = toSkillsArray(sender?.skills).slice(0, 3);
+
             return (
               <motion.div
                 variants={cardVariants}
@@ -114,7 +116,7 @@ const Requests = () => {
                     <div className="mt-2.5 flex flex-wrap gap-1.5 justify-center sm:justify-start">
                       {skillList.map((skill, i) => (
                         <span key={i} className="px-2.5 py-0.5 bg-primary/10 text-primary rounded-full text-xs font-semibold border border-primary/20">
-                          {skill.trim()}
+                          {skill}
                         </span>
                       ))}
                     </div>

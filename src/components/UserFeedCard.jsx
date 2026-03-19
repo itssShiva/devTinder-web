@@ -6,6 +6,14 @@ import { removeFeed } from '../utils/feedSlice';
 import { motion, useMotionValue, useTransform, useAnimation } from 'framer-motion';
 import { X, Heart, Code2 } from 'lucide-react';
 
+// skills can arrive as an array or comma-separated string from the backend
+const toSkillsArray = (skills) => {
+  if (!skills) return [];
+  if (Array.isArray(skills)) return skills;
+  return skills.split(',').map((s) => s.trim()).filter(Boolean);
+};
+
+
 const UserFeedCard = ({ user, isPreview = false }) => {
   const { firstName, lastName, photoUrl, about, skills, age, gender } = user || {};
   const dispatch = useDispatch();
@@ -130,11 +138,11 @@ const UserFeedCard = ({ user, isPreview = false }) => {
             
             {skills && (
               <div className="mt-3 sm:mt-4 flex flex-wrap gap-1.5 sm:gap-2">
-                {skills.split(',').slice(0, 4).map((skill, index) => (
-                  <span key={index} className="px-2.5 py-1 bg-primary/10 text-primary-focus rounded-full text-xs font-semibold border border-primary/20">{skill.trim()}</span>
+                {toSkillsArray(skills).slice(0, 4).map((skill, index) => (
+                  <span key={index} className="px-2.5 py-1 bg-primary/10 text-primary-focus rounded-full text-xs font-semibold border border-primary/20">{skill}</span>
                 ))}
-                {skills.split(',').length > 4 && (
-                  <span className="px-2.5 py-1 bg-slate-100 text-slate-500 rounded-full text-xs font-semibold border border-slate-200">+{skills.split(',').length - 4}</span>
+                {toSkillsArray(skills).length > 4 && (
+                  <span className="px-2.5 py-1 bg-slate-100 text-slate-500 rounded-full text-xs font-semibold border border-slate-200">+{toSkillsArray(skills).length - 4}</span>
                 )}
               </div>
             )}
