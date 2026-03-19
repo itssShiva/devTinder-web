@@ -143,7 +143,7 @@ const Chat = () => {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="absolute right-1 top-1 bottom-1 w-10 h-10 rounded-full text-white flex items-center justify-center shadow-[0_4px_12px_rgba(185,28,28,0.4)] hover:shadow-[0_4px_20px_rgba(185,28,28,0.6)] transition-all border-none"
+              className="absolute right-1.5 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full text-white flex items-center justify-center shadow-[0_4px_12px_rgba(185,28,28,0.4)] hover:shadow-[0_4px_20px_rgba(185,28,28,0.6)] transition-all border-none z-20 disabled:opacity-40 disabled:cursor-not-allowed"
               style={{ backgroundImage: 'linear-gradient(135deg, #b91c1c, #ef4444)' }}
               onClick={sendMessage}
               disabled={!newMessage.trim()}
