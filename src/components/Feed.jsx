@@ -1,11 +1,51 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import UserFeedCard from './UserFeedCard';
 import { motion } from 'framer-motion';
-import { Sparkles, Compass } from 'lucide-react';
+import { Sparkles, Compass, Loader2 } from 'lucide-react';
+import axios from 'axios';
+import { BASE_URL } from '../utils/Constant';
+import { addFeed } from '../utils/feedSlice';
 
 const Feed = () => {
   const feed = useSelector((store) => store.feed);
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
+  const [hasFetched, setHasFetched] = useState(false);
+
+  const getFeed = async () => {
+    try {
+      setLoading(true);
+      const res = await axios.get(BASE_URL + "/feed", { withCredentials: true });
+      dispatch(addFeed(res?.data?.data));
+      setHasFetched(true);
+    } catch (err) {
+      console.error("Feed Fetch Error:", err);
+      // If 401, the Body.jsx will likely redirect to login
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    // Only fetch if feed is empty and hasn't been fetched in this session
+    if (!feed || feed.length === 0) {
+      getFeed();
+    } else {
+      setHasFetched(true);
+    }
+  }, []);
+
+  if (loading && !hasFetched) {
+    return (
+      <div className="min-h-[calc(100vh-80px)] flex flex-col items-center justify-center">
+        <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1, ease: "linear" }}>
+          <Loader2 className="w-12 h-12 text-red-500" />
+        </motion.div>
+        <p className="mt-4 text-slate-400 font-medium animate-pulse">Finding developers for you...</p>
+      </div>
+    );
+  }
 
   if (!feed) return null;
 
@@ -25,15 +65,16 @@ const Feed = () => {
             </div>
             <h2 className="text-3xl font-black text-slate-100 mb-4 tracking-tight">All Caught Up!</h2>
             <p className="text-slate-400 mb-8 leading-relaxed">
-              You've seen everyone around you for now. Check back later or expand your search to discover more developers.
+              {loading ? "Checking for new developers..." : "You've seen everyone around you for now. Check back later or expand your search to discover more developers."}
             </p>
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => window.location.reload()}
-              className="btn btn-gradient px-8 h-12 min-h-0 text-base"
+              disabled={loading}
+              onClick={() => getFeed()}
+              className="btn btn-gradient px-8 h-12 min-h-0 text-base disabled:opacity-50"
             >
-              Refresh Feed
+              {loading ? "Refreshing..." : "Refresh Feed"}
             </motion.button>
           </div>
         </motion.div>
