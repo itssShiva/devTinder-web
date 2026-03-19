@@ -16,12 +16,24 @@ const Feed = () => {
   const getFeed = async () => {
     try {
       setLoading(true);
+      console.log("Fetching Feed from:", BASE_URL + "/feed");
       const res = await axios.get(BASE_URL + "/feed", { withCredentials: true });
-      dispatch(addFeed(res?.data?.data));
+      
+      console.log("Feed API Response Raw:", res.data);
+      
+      // Robust data extraction: try res.data.data or res.data
+      const feedData = res?.data?.data || (Array.isArray(res?.data) ? res?.data : []);
+      
+      console.log("Extracted Feed Data:", feedData);
+      
+      dispatch(addFeed(feedData));
       setHasFetched(true);
     } catch (err) {
-      console.error("Feed Fetch Error:", err);
-      // If 401, the Body.jsx will likely redirect to login
+      console.error("Feed Fetch Error Details:", err);
+      if (err.response) {
+        console.error("Error Response Data:", err.response.data);
+        console.error("Error Status:", err.response.status);
+      }
     } finally {
       setLoading(false);
     }
@@ -47,6 +59,7 @@ const Feed = () => {
     );
   }
 
+  // If feed is null/undefined after fetch (shouldn't happen with our robust check)
   if (!feed) return null;
 
   if (feed.length <= 0) {
@@ -78,6 +91,7 @@ const Feed = () => {
             </motion.button>
           </div>
         </motion.div>
+        <p className="mt-4 text-zinc-600 text-xs">Check browser console (F12) for detailed logs if this persists.</p>
       </div>
     );
   }
