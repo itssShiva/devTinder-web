@@ -114,7 +114,7 @@ const Feed = () => {
       </motion.div>
 
       <div className="w-full max-w-md relative z-10">
-        <UserFeedCard user={feed[0]} />
+        <UserFeedCard user={feed[0]} key={feed[0]._id} />
       </div>
 
       <p className="mt-8 text-zinc-500 text-sm font-medium animate-bounce z-10">
