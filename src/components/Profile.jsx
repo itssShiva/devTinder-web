@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import UserFeedCard from './UserFeedCard';
 import axios from 'axios';
 import { BASE_URL } from '../utils/Constant';
 import { addUser } from '../utils/userSlice';
 import { toast } from 'react-toastify';
+import { motion } from 'framer-motion';
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -53,67 +54,90 @@ const Profile = () => {
 
   if (!user) return null;
 
+  const inputClass = "input input-bordered w-full bg-white/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all shadow-sm";
+  const labelClass = "label pb-1";
+  const labelTextClass = "label-text font-semibold text-slate-700";
+
   return (
-    <div className="flex flex-col lg:flex-row justify-center items-start gap-6 px-4 sm:px-6 lg:px-8 my-10">
-      
+    <div className="min-h-[calc(100vh-80px)] flex flex-col lg:flex-row justify-center items-start gap-8 px-4 sm:px-6 lg:px-8 py-10 relative overflow-hidden">
+      {/* Decorative background blobs */}
+      <div className="absolute top-20 left-10 w-72 h-72 bg-fuchsia-400/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div className="absolute bottom-20 right-10 w-96 h-96 bg-violet-400/10 rounded-full blur-3xl pointer-events-none"></div>
+
       {/* Profile Form */}
-      <div className="card w-full lg:w-96 bg-base-300 shadow-sm flex-shrink-0">
-        <div className="card-body">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-4 text-center underline">Profile</h2>
+      <motion.div 
+        initial={{ opacity: 0, x: -30 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        className="card glass-panel w-full lg:w-[32rem] shadow-2xl p-6 sm:p-8 relative z-10 flex-shrink-0"
+      >
+        <h2 className="text-3xl sm:text-4xl font-black mb-6 text-center gradient-text">Edit Profile</h2>
 
-          <fieldset className="fieldset mb-2">
-            <legend className="fieldset-legend text-base sm:text-lg">First Name:</legend>
-            <input type="text" className="input w-full" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
-          </fieldset>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="form-control">
+            <label className={labelClass}><span className={labelTextClass}>First Name</span></label>
+            <input type="text" className={inputClass} value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+          </div>
 
-          <fieldset className="fieldset mb-2">
-            <legend className="fieldset-legend text-base sm:text-lg">Last Name:</legend>
-            <input type="text" className="input w-full" value={lastName} onChange={(e) => setLastName(e.target.value)} />
-          </fieldset>
+          <div className="form-control">
+            <label className={labelClass}><span className={labelTextClass}>Last Name</span></label>
+            <input type="text" className={inputClass} value={lastName} onChange={(e) => setLastName(e.target.value)} />
+          </div>
 
-          <fieldset className="fieldset mb-2">
-            <legend className="fieldset-legend text-base sm:text-lg">Age:</legend>
-            <input type="text" className="input w-full" value={age} onChange={(e) => setAge(e.target.value)} />
-          </fieldset>
+          <div className="form-control">
+            <label className={labelClass}><span className={labelTextClass}>Age</span></label>
+            <input type="number" className={inputClass} value={age} onChange={(e) => setAge(e.target.value)} />
+          </div>
 
-          <fieldset className="fieldset mb-2">
-            <legend className="fieldset-legend text-base sm:text-lg">Gender:</legend>
-            <select value={gender} onChange={(e) => setGender(e.target.value)} className="input w-full bg-base-300 text-white">
+          <div className="form-control">
+            <label className={labelClass}><span className={labelTextClass}>Gender</span></label>
+            <select value={gender} onChange={(e) => setGender(e.target.value)} className={`select select-bordered w-full bg-white/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all shadow-sm`}>
               <option value="male">Male</option>
               <option value="female">Female</option>
               <option value="others">Others</option>
             </select>
-          </fieldset>
+          </div>
 
-          <fieldset className="fieldset mb-2">
-            <legend className="fieldset-legend text-base sm:text-lg">Photo URL:</legend>
-            <input type="text" className="input w-full" value={photoUrl} onChange={(e) => setPhotoUrl(e.target.value)} />
-          </fieldset>
+          <div className="form-control sm:col-span-2">
+            <label className={labelClass}><span className={labelTextClass}>Photo URL</span></label>
+            <input type="url" className={inputClass} value={photoUrl} onChange={(e) => setPhotoUrl(e.target.value)} />
+          </div>
 
-          <fieldset className="fieldset mb-2">
-            <legend className="fieldset-legend text-base sm:text-lg">About:</legend>
-            <input type="text" className="input w-full" value={about} onChange={(e) => setAbout(e.target.value)} />
-          </fieldset>
+          <div className="form-control sm:col-span-2">
+            <label className={labelClass}><span className={labelTextClass}>Skills (comma separated)</span></label>
+            <input type="text" className={inputClass} value={skills} onChange={(e) => setSkills(e.target.value)} />
+          </div>
 
-          <fieldset className="fieldset mb-2">
-            <legend className="fieldset-legend text-base sm:text-lg">Skills:</legend>
-            <input type="text" className="input w-full" value={skills} onChange={(e) => setSkills(e.target.value)} />
-          </fieldset>
-
-          {error && <p className="text-red-500 mt-1 text-sm">{error}</p>}
-
-          <div className="flex justify-center mt-4">
-            <button className="btn btn-primary w-full sm:w-2/3" onClick={updateHandler}>
-              Update Profile
-            </button>
+          <div className="form-control sm:col-span-2">
+            <label className={labelClass}><span className={labelTextClass}>About / Bio</span></label>
+            <textarea className="textarea textarea-bordered w-full bg-white/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all shadow-sm resize-none h-24" value={about} onChange={(e) => setAbout(e.target.value)}></textarea>
           </div>
         </div>
-      </div>
 
-      {/* UserFeedCard */}
-      <div className="w-full lg:w-96 flex-shrink-0">
-        <UserFeedCard user={{ firstName, lastName, age, skills, about, photoUrl }} />
-      </div>
+        {error && <p className="text-red-500 mt-4 text-sm text-center bg-red-50 p-2 rounded-xl border border-red-100">{error}</p>}
+
+        <motion.button 
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          className="btn border-none bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white w-full shadow-lg shadow-violet-500/30 hover:shadow-violet-500/50 transition-all font-semibold rounded-xl mt-6 py-3 h-auto text-lg" 
+          onClick={updateHandler}
+        >
+          Save Profile
+        </motion.button>
+      </motion.div>
+
+      {/* Profile Preview (UserFeedCard) */}
+      <motion.div 
+        initial={{ opacity: 0, x: 30 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.5, ease: "easeOut", delay: 0.2 }}
+        className="w-full lg:w-96 flex-shrink-0 z-10"
+      >
+        <div className="mb-4 text-center">
+          <span className="text-sm font-semibold tracking-wider text-slate-500 uppercase bg-white/60 px-4 py-1.5 rounded-full shadow-sm border border-white/40">Profile Preview</span>
+        </div>
+        <UserFeedCard user={{ firstName, lastName, age, skills, about, photoUrl, gender, _id: user._id }} isPreview={true} />
+      </motion.div>
 
     </div>
   )
