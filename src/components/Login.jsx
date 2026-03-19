@@ -21,26 +21,23 @@ const Login = () => {
   const clickHandler = async () => {
     if (!email.trim()) { setError("Please enter your email address."); return; }
     if (!password) { setError("Please enter your password."); return; }
-
     setIsLoading(true);
     setError("");
     try {
-      const result = await axios.post(
-        BASE_URL + "/login",
-        { emailId: email, password },
-        { withCredentials: true }
-      );
+      const result = await axios.post(BASE_URL + "/login", { emailId: email, password }, { withCredentials: true });
       dispatch(addUser(result.data));
       toast.success("Welcome back! 🎉");
       navigate('/');
       window.location.reload();
     } catch (err) {
-      const msg = err.response?.data || err.message || "Something went wrong. Please try again.";
+      const msg = err.response?.data || err.message || "Something went wrong.";
       setError(typeof msg === 'string' ? msg : "Invalid credentials. Please try again.");
     } finally {
       setIsLoading(false);
     }
   };
+
+  const inputClass = "input input-bordered w-full bg-zinc-900/60 border-zinc-700 text-slate-100 placeholder:text-zinc-500 focus:bg-zinc-900 focus:outline-none focus:ring-2 focus:ring-red-500/30 focus:border-red-500/60 transition-all shadow-sm shadow-black/30";
 
   return (
     <div className="min-h-[calc(100vh-80px)] flex items-center justify-center px-4 sm:px-6 lg:px-8 py-12">
@@ -48,11 +45,11 @@ const Login = () => {
         initial={{ opacity: 0, scale: 0.95, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
-        className="card glass-panel w-full max-w-md shadow-2xl p-8 relative overflow-hidden"
+        className="card glass-panel w-full max-w-md shadow-[0_24px_80px_rgba(0,0,0,0.7)] p-8 relative overflow-hidden"
       >
-        {/* Decorative blobs */}
-        <div className="absolute -top-24 -right-24 w-48 h-48 bg-fuchsia-400/20 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-violet-400/20 rounded-full blur-3xl pointer-events-none" />
+        {/* Decorative red blobs */}
+        <div className="absolute -top-24 -right-24 w-48 h-48 bg-red-700/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-red-900/15 rounded-full blur-3xl pointer-events-none" />
 
         <div className="card-body p-0 z-10">
           <h2 className="text-3xl font-black mb-2 text-center gradient-text">Welcome Back</h2>
@@ -68,10 +65,10 @@ const Login = () => {
                 transition={{ duration: 0.25 }}
                 className="mb-5 overflow-hidden"
               >
-                <div className="flex items-start gap-3 bg-rose-50 border border-rose-200 text-rose-700 px-4 py-3 rounded-xl">
-                  <AlertCircle className="w-4 h-4 mt-0.5 flex-shrink-0 text-rose-500" />
+                <div className="flex items-start gap-3 bg-red-950/70 border border-red-800/50 text-red-400 px-4 py-3 rounded-xl">
+                  <AlertCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
                   <p className="text-sm flex-1 leading-snug">{error}</p>
-                  <button onClick={() => setError("")} className="text-rose-400 hover:text-rose-600 transition-colors flex-shrink-0 -mt-0.5">
+                  <button onClick={() => setError("")} className="text-red-600 hover:text-red-400 transition-colors flex-shrink-0 -mt-0.5">
                     <X className="w-4 h-4" />
                   </button>
                 </div>
@@ -81,34 +78,22 @@ const Login = () => {
 
           {/* Email */}
           <div className="form-control w-full mb-4">
-            <label className="label pb-1"><span className="label-text font-semibold text-slate-700">Email ID</span></label>
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className={`input input-bordered w-full bg-white/50 focus:bg-white focus:outline-none focus:ring-2 transition-all shadow-sm ${error && !password ? 'border-rose-300 focus:ring-rose-300/40 focus:border-rose-400' : 'focus:ring-primary/40 focus:border-primary'}`}
-              value={email}
+            <label className="label pb-1"><span className="label-text font-semibold text-slate-300">Email ID</span></label>
+            <input type="email" placeholder="Enter your email" className={inputClass} value={email}
               onChange={(e) => { setEmail(e.target.value); setError(""); }}
-              onKeyDown={(e) => e.key === 'Enter' && clickHandler()}
-            />
+              onKeyDown={(e) => e.key === 'Enter' && clickHandler()} />
           </div>
 
           {/* Password */}
           <div className="form-control w-full mb-6">
-            <label className="label pb-1"><span className="label-text font-semibold text-slate-700">Password</span></label>
+            <label className="label pb-1"><span className="label-text font-semibold text-slate-300">Password</span></label>
             <div className="relative">
-              <input
-                type={showPassword ? "text" : "password"}
-                placeholder="Enter your password"
-                className={`input input-bordered w-full bg-white/50 focus:bg-white focus:outline-none focus:ring-2 transition-all shadow-sm pr-11 ${error && password ? 'border-rose-300 focus:ring-rose-300/40 focus:border-rose-400' : 'focus:ring-primary/40 focus:border-primary'}`}
-                value={password}
+              <input type={showPassword ? "text" : "password"} placeholder="Enter your password"
+                className={`${inputClass} pr-11`} value={password}
                 onChange={(e) => { setPassword(e.target.value); setError(""); }}
-                onKeyDown={(e) => e.key === 'Enter' && clickHandler()}
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-primary transition-colors"
-              >
+                onKeyDown={(e) => e.key === 'Enter' && clickHandler()} />
+              <button type="button" onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-red-400 transition-colors">
                 {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
               </button>
             </div>
@@ -117,22 +102,17 @@ const Login = () => {
           <motion.button
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            className="btn border-none bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white w-full shadow-lg shadow-violet-500/30 hover:shadow-violet-500/50 transition-all font-semibold rounded-xl mt-2 h-auto py-3 text-base disabled:opacity-60 disabled:cursor-not-allowed"
+            className="btn border-none w-full font-semibold rounded-xl mt-2 h-auto py-3 text-base text-white disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_4px_24px_rgba(185,28,28,0.35)] hover:shadow-[0_4px_32px_rgba(185,28,28,0.55)] transition-all"
+            style={{ backgroundImage: 'linear-gradient(135deg, #b91c1c, #ef4444)' }}
             onClick={clickHandler}
             disabled={isLoading}
           >
-            {isLoading ? (
-              <span className="flex items-center gap-2">
-                <span className="loading loading-spinner loading-sm" /> Signing in...
-              </span>
-            ) : 'Sign In'}
+            {isLoading ? <span className="flex items-center gap-2"><span className="loading loading-spinner loading-sm" /> Signing in...</span> : 'Sign In'}
           </motion.button>
 
-          <p className="text-center mt-8 text-sm text-slate-600">
+          <p className="text-center mt-8 text-sm text-slate-500">
             Don't have an account?{' '}
-            <Link to="/signup" className="text-primary font-bold hover:text-fuchsia-500 transition-colors">
-              Create one
-            </Link>
+            <Link to="/signup" className="text-red-400 font-bold hover:text-red-300 transition-colors">Create one</Link>
           </p>
         </div>
       </motion.div>

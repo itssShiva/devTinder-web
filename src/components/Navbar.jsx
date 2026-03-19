@@ -15,9 +15,7 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
+    const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -26,26 +24,29 @@ const Navbar = () => {
     try {
       await axios.post(BASE_URL + '/logout', {}, { withCredentials: true });
       dispatch(removeUser());
-      toast.info("Logout successfully");
+      toast.info("Logged out successfully");
       navigate('/login');
     } catch (error) {
-      console.log(error);
       toast.error(error.message);
     }
   };
 
   return (
-    <motion.header 
+    <motion.header
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       className={`sticky top-0 z-50 transition-all duration-300 ${scrolled ? 'py-2' : 'py-4'}`}
     >
-      <div className={`mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 transition-all duration-300 ${scrolled ? 'w-full px-0 sm:px-0 lg:px-0' : 'w-[95%]'}`}>
-        <div className={`navbar shadow-sm transition-all duration-300 ${scrolled ? 'bg-white/70 backdrop-blur-lg border-b border-white/20' : 'glass-panel'} px-4 sm:px-6`}>
+      <div className={`mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 transition-all duration-300 ${scrolled ? 'w-full px-0' : 'w-[95%]'}`}>
+        <div className={`navbar transition-all duration-300 ${
+          scrolled
+            ? 'bg-black/80 backdrop-blur-xl border-b border-red-500/10 shadow-[0_4px_24px_rgba(0,0,0,0.6)]'
+            : 'glass-panel'
+        } px-4 sm:px-6`}>
           <div className="flex-1">
             <Link to={user ? '/' : '/login'} className="btn btn-ghost hover:bg-transparent px-2 group">
               <motion.div whileHover={{ rotate: 180 }} transition={{ duration: 0.3 }}>
-                <Code2 className="w-8 h-8 text-primary" />
+                <Code2 className="w-8 h-8 text-red-500" />
               </motion.div>
               <span className="text-xl sm:text-2xl font-black tracking-tight gradient-text group-hover:opacity-80 transition-opacity ml-1">
                 DevTinder
@@ -59,9 +60,9 @@ const Navbar = () => {
                 <div
                   tabIndex={0}
                   role="button"
-                  className="btn btn-ghost btn-circle avatar ring ring-primary/20 ring-offset-base-100 ring-offset-2 hover:ring-primary/50 transition-all"
+                  className="btn btn-ghost btn-circle avatar ring-2 ring-red-500/20 ring-offset-2 ring-offset-black hover:ring-red-500/50 transition-all"
                 >
-                  <div className="w-10 sm:w-11 rounded-full shadow-md">
+                  <div className="w-10 sm:w-11 rounded-full shadow-md shadow-red-900/30">
                     <img
                       alt="User Photo"
                       src={user.photoUrl || "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?size=338&ext=jpg"}
@@ -71,19 +72,19 @@ const Navbar = () => {
 
                 <ul
                   tabIndex={0}
-                  className="menu menu-sm dropdown-content bg-white/90 backdrop-blur-xl border border-white/40 rounded-2xl z-[100] mt-4 w-56 p-3 shadow-[0_8px_30px_rgb(0,0,0,0.12)] gap-1"
+                  className="menu menu-sm dropdown-content bg-zinc-950/95 backdrop-blur-xl border border-red-500/10 rounded-2xl z-[100] mt-4 w-56 p-3 shadow-[0_16px_48px_rgba(0,0,0,0.7),_0_0_0_1px_rgba(239,68,68,0.08)] gap-1"
                 >
-                  <div className="px-4 py-3 mb-2 border-b border-base-200">
-                    <p className="font-semibold text-sm truncate">{user.firstName} {user.lastName}</p>
-                    <p className="text-xs text-base-content/60 truncate opacity-80">Developer</p>
+                  <div className="px-4 py-3 mb-2 border-b border-zinc-800">
+                    <p className="font-semibold text-sm truncate text-slate-100">{user.firstName} {user.lastName}</p>
+                    <p className="text-xs text-slate-500 truncate">Developer</p>
                   </div>
-                  <li><Link to={'/'} className="hover:bg-primary/10 hover:text-primary rounded-xl py-2.5 transition-colors"><Home className="w-4 h-4 mr-2" />Home</Link></li>
-                  <li><Link to={'/profile'} className="hover:bg-primary/10 hover:text-primary rounded-xl py-2.5 transition-colors"><UserIcon className="w-4 h-4 mr-2" />Profile</Link></li>
-                  <li><Link to={'/connections'} className="hover:bg-secondary/10 hover:text-secondary rounded-xl py-2.5 transition-colors"><Users className="w-4 h-4 mr-2" />Connections</Link></li>
-                  <li><Link to={'/requests'} className="hover:bg-accent/10 hover:text-accent rounded-xl py-2.5 transition-colors"><Bell className="w-4 h-4 mr-2" />Requests</Link></li>
-                  <li><Link to={'/premium'} className="hover:bg-amber-500/10 hover:text-amber-600 rounded-xl py-2.5 transition-colors"><Star className="w-4 h-4 mr-2" />Premium</Link></li>
-                  <div className="divider my-1 h-[1px]"></div>
-                  <li><button onClick={handleLogout} className="text-red-500 hover:bg-red-50 hover:text-red-600 rounded-xl py-2.5 transition-colors"><LogOut className="w-4 h-4 mr-2" />Logout</button></li>
+                  <li><Link to={'/'} className="hover:bg-red-500/10 hover:text-red-400 text-slate-300 rounded-xl py-2.5 transition-colors"><Home className="w-4 h-4 mr-2" />Home</Link></li>
+                  <li><Link to={'/profile'} className="hover:bg-red-500/10 hover:text-red-400 text-slate-300 rounded-xl py-2.5 transition-colors"><UserIcon className="w-4 h-4 mr-2" />Profile</Link></li>
+                  <li><Link to={'/connections'} className="hover:bg-red-500/10 hover:text-red-400 text-slate-300 rounded-xl py-2.5 transition-colors"><Users className="w-4 h-4 mr-2" />Connections</Link></li>
+                  <li><Link to={'/requests'} className="hover:bg-red-500/10 hover:text-red-400 text-slate-300 rounded-xl py-2.5 transition-colors"><Bell className="w-4 h-4 mr-2" />Requests</Link></li>
+                  <li><Link to={'/premium'} className="hover:bg-amber-500/10 hover:text-amber-400 text-slate-300 rounded-xl py-2.5 transition-colors"><Star className="w-4 h-4 mr-2" />Premium</Link></li>
+                  <div className="divider my-1 h-[1px] bg-zinc-800" />
+                  <li><button onClick={handleLogout} className="text-red-400 hover:bg-red-900/20 hover:text-red-300 rounded-xl py-2.5 transition-colors w-full text-left flex items-center"><LogOut className="w-4 h-4 mr-2" />Logout</button></li>
                 </ul>
               </div>
             </div>

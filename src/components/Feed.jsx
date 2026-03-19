@@ -1,76 +1,72 @@
-import axios from 'axios';
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { BASE_URL } from '../utils/Constant';
-import { addFeed } from '../utils/feedSlice';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import UserFeedCard from './UserFeedCard';
 import { motion } from 'framer-motion';
-import { Sparkles } from 'lucide-react';
+import { Sparkles, Compass } from 'lucide-react';
 
 const Feed = () => {
-  const dispatch = useDispatch();
   const feed = useSelector((store) => store.feed);
 
-  const getFeed = async () => {
-    try {
-      if (feed && feed.length > 0) return;
-      const res = await axios.get(BASE_URL + "/feed", { withCredentials: true });
-      dispatch(addFeed(res?.data));
-    } catch (error) {
-      console.log(error);
-    }
+  if (!feed) return null;
+
+  if (feed.length <= 0) {
+    return (
+      <div className="min-h-[calc(100vh-80px)] flex flex-col items-center justify-center p-4 text-center">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+          className="relative"
+        >
+          <div className="absolute -inset-4 bg-red-500/20 blur-2xl rounded-full" />
+          <div className="relative glass-panel p-8 sm:p-12 flex flex-col items-center max-w-md">
+            <div className="w-20 h-20 bg-gradient-to-br from-red-600 to-red-400 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-red-900/40 rotate-12">
+              <Sparkles className="w-10 h-10 text-white" />
+            </div>
+            <h2 className="text-3xl font-black text-slate-100 mb-4 tracking-tight">All Caught Up!</h2>
+            <p className="text-slate-400 mb-8 leading-relaxed">
+              You've seen everyone around you for now. Check back later or expand your search to discover more developers.
+            </p>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => window.location.reload()}
+              className="btn btn-gradient px-8 h-12 min-h-0 text-base"
+            >
+              Refresh Feed
+            </motion.button>
+          </div>
+        </motion.div>
+      </div>
+    );
   }
 
-  useEffect(() => {
-    getFeed();
-  }, [])
+  return (
+    <div className="min-h-[calc(100vh-80px)] px-4 flex flex-col items-center justify-start pt-10 pb-20 relative overflow-hidden">
+      {/* Background Blobs */}
+      <div className="absolute top-20 left-[10%] w-72 h-72 bg-red-600/10 rounded-full blur-3xl pointer-events-none animate-pulse" />
+      <div className="absolute bottom-40 right-[15%] w-96 h-96 bg-red-900/10 rounded-full blur-3xl pointer-events-none animate-pulse" style={{ animationDelay: '2s' }} />
 
-  if (feed.length < 1) return (
-    <div className="min-h-[calc(100vh-80px)] flex flex-col items-center justify-center gap-4 px-4 text-center">
       <motion.div
-        initial={{ scale: 0, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ type: 'spring', stiffness: 200, damping: 15 }}
-        className="w-24 h-24 rounded-full bg-gradient-to-br from-violet-100 to-fuchsia-100 flex items-center justify-center mb-2"
-      >
-        <Sparkles className="w-12 h-12 text-violet-400" />
-      </motion.div>
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
+        initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2 }}
+        className="mb-8 z-10"
       >
-        <h2 className="text-2xl font-bold text-slate-700 mb-2">You're All Caught Up!</h2>
-        <p className="text-slate-500 max-w-xs">Come back later to discover more developers in your feed.</p>
+        <div className="flex items-center gap-2 bg-black/40 backdrop-blur-md px-4 py-2 rounded-full border border-red-500/20 shadow-lg shadow-red-950/20">
+          <Compass className="w-4 h-4 text-red-500" />
+          <span className="text-xs font-bold uppercase tracking-widest text-slate-300">Discover Developers</span>
+        </div>
       </motion.div>
+
+      <div className="w-full max-w-md relative z-10">
+        <UserFeedCard user={feed[0]} />
+      </div>
+
+      <p className="mt-8 text-zinc-500 text-sm font-medium animate-bounce z-10">
+        Swipe right to connect, left to ignore
+      </p>
     </div>
   );
-
-  return (
-    <div className="min-h-[calc(100vh-80px)] flex flex-col items-center justify-center py-10 px-4 relative overflow-hidden">
-      {/* Decorative background blobs */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/8 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-secondary/8 rounded-full blur-3xl pointer-events-none" />
-
-      <motion.p
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}
-        className="text-sm font-semibold tracking-wider text-slate-400 uppercase mb-6 bg-white/60 px-4 py-1.5 rounded-full shadow-sm border border-white/40"
-      >
-        Discover Developers
-      </motion.p>
-
-      <motion.div
-        initial={{ opacity: 0, y: 30, scale: 0.96 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.5, ease: 'easeOut' }}
-        className="w-full relative z-10"
-      >
-        {feed && feed.length > 0 && <UserFeedCard user={feed[0]} />}
-      </motion.div>
-    </div>
-  )
-}
+};
 
 export default Feed;

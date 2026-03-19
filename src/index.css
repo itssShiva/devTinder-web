@@ -1,54 +1,70 @@
 @import "tailwindcss";
 @plugin "daisyui" {
-  themes: light;
+  themes: dark;
 }
 
 @theme {
-  --color-primary: #8b5cf6;
-  --color-secondary: #f472b6;
-  --color-accent: #38bdf8;
+  --color-primary: #ef4444;
+  --color-secondary: #f87171;
+  --color-accent: #fca5a5;
   --font-sans: "Inter", sans-serif;
 }
 
 @layer base {
   body {
-    @apply bg-gradient-to-br from-[#fdfbfb] to-[#ebedee] text-slate-800 min-h-screen font-sans overflow-x-hidden;
+    background-color: #080808;
+    background-image:
+      radial-gradient(ellipse 90% 50% at 50% -10%, rgba(185, 28, 28, 0.18) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 30% at 100% 100%, rgba(120, 10, 10, 0.12) 0%, transparent 60%);
+    @apply text-slate-100 min-h-screen font-sans overflow-x-hidden;
   }
 
   * {
     @apply transition-colors duration-150;
   }
 
-  ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-  }
-  ::-webkit-scrollbar-track {
-    background: transparent;
-  }
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb {
-    background: rgba(139, 92, 246, 0.25);
+    background: rgba(239, 68, 68, 0.3);
     border-radius: 999px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: rgba(139, 92, 246, 0.45);
+    background: rgba(239, 68, 68, 0.55);
   }
 }
 
 @layer utilities {
+  /* Dark glass panel with red tint */
   .glass-panel {
-    @apply bg-white/60 backdrop-blur-md border border-white/40 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] rounded-2xl;
+    background: rgba(12, 8, 8, 0.78);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid rgba(239, 68, 68, 0.12);
+    box-shadow:
+      0 8px 40px rgba(0, 0, 0, 0.55),
+      0 0 0 1px rgba(239, 68, 68, 0.05),
+      inset 0 1px 0 rgba(255, 255, 255, 0.03);
+    border-radius: 1rem;
   }
 
+  /* Red gradient text */
   .gradient-text {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-violet-500 to-fuchsia-500;
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, #ef4444 0%, #f87171 50%, #fca5a5 100%);
   }
 
+  /* Red gradient button */
   .btn-gradient {
-    @apply border-none bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white shadow-lg shadow-violet-500/30 hover:shadow-violet-500/50 font-semibold rounded-xl;
+    @apply border-none text-white font-semibold rounded-xl;
+    background-image: linear-gradient(135deg, #b91c1c, #ef4444);
+    box-shadow: 0 4px 20px rgba(185, 28, 28, 0.35);
+  }
+  .btn-gradient:hover {
+    box-shadow: 0 4px 28px rgba(185, 28, 28, 0.55);
   }
 
-  /* Fade in up */
+  /* Keyframes */
   @keyframes fadeInUp {
     from { opacity: 0; transform: translateY(20px); }
     to   { opacity: 1; transform: translateY(0); }
@@ -57,34 +73,28 @@
     animation: fadeInUp 0.4s ease-out both;
   }
 
-  /* Gentle float */
   @keyframes float {
     0%, 100% { transform: translateY(0); }
     50%       { transform: translateY(-8px); }
   }
-  .animate-float {
-    animation: float 4s ease-in-out infinite;
-  }
+  .animate-float { animation: float 4s ease-in-out infinite; }
 
-  /* Subtle pulse glow */
   @keyframes glow-pulse {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.15); }
-    50%       { box-shadow: 0 0 20px 10px rgba(139, 92, 246, 0.1); }
+    0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.15); }
+    50%       { box-shadow: 0 0 24px 8px rgba(239, 68, 68, 0.12); }
   }
-  .animate-glow-pulse {
-    animation: glow-pulse 3s ease-in-out infinite;
-  }
+  .animate-glow-pulse { animation: glow-pulse 3s ease-in-out infinite; }
 }
 
 /* ─── Themed Toast Notifications ─────────────────────────────────────── */
 .dt-toast {
-  background: rgba(255, 255, 255, 0.85) !important;
+  background: rgba(18, 8, 8, 0.92) !important;
   backdrop-filter: blur(16px) !important;
   -webkit-backdrop-filter: blur(16px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.5) !important;
-  border-radius: 16px !important;
-  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.10), 0 1.5px 6px rgba(139,92,246,0.08) !important;
-  color: #1e293b !important;
+  border: 1px solid rgba(239, 68, 68, 0.18) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(239, 68, 68, 0.06) !important;
+  color: #f1f5f9 !important;
   font-family: "Inter", sans-serif !important;
   font-size: 14px !important;
   font-weight: 500 !important;
@@ -92,39 +102,21 @@
   min-height: 56px !important;
 }
 
-/* Progress bar defaults to violet */
 .dt-toast-progress {
-  background: linear-gradient(90deg, #8b5cf6, #d946ef) !important;
-  border-radius: 0 0 16px 16px !important;
+  background: linear-gradient(90deg, #b91c1c, #ef4444) !important;
+  border-radius: 0 0 14px 14px !important;
   height: 3px !important;
 }
 
-/* Per-type progress bar colours */
-.Toastify__toast--success .dt-toast-progress {
-  background: linear-gradient(90deg, #10b981, #34d399) !important;
-}
-.Toastify__toast--error .dt-toast-progress {
-  background: linear-gradient(90deg, #f43f5e, #fb7185) !important;
-}
-.Toastify__toast--warning .dt-toast-progress {
-  background: linear-gradient(90deg, #f59e0b, #fbbf24) !important;
-}
-.Toastify__toast--info .dt-toast-progress {
-  background: linear-gradient(90deg, #38bdf8, #818cf8) !important;
-}
+.Toastify__toast--success .dt-toast-progress { background: linear-gradient(90deg, #059669, #34d399) !important; }
+.Toastify__toast--error   .dt-toast-progress { background: linear-gradient(90deg, #b91c1c, #f87171) !important; }
+.Toastify__toast--warning .dt-toast-progress { background: linear-gradient(90deg, #d97706, #fbbf24) !important; }
+.Toastify__toast--info    .dt-toast-progress { background: linear-gradient(90deg, #dc2626, #f87171) !important; }
 
-/* Icon colours per type */
-.Toastify__toast--success .Toastify__toast-icon svg { fill: #10b981; }
-.Toastify__toast--error   .Toastify__toast-icon svg { fill: #f43f5e; }
-.Toastify__toast--warning .Toastify__toast-icon svg { fill: #f59e0b; }
-.Toastify__toast--info    .Toastify__toast-icon svg { fill: #8b5cf6; }
+.Toastify__toast--success .Toastify__toast-icon svg { fill: #34d399; }
+.Toastify__toast--error   .Toastify__toast-icon svg { fill: #f87171; }
+.Toastify__toast--warning .Toastify__toast-icon svg { fill: #fbbf24; }
+.Toastify__toast--info    .Toastify__toast-icon svg { fill: #ef4444; }
 
-/* Close button */
-.Toastify__close-button {
-  color: #94a3b8 !important;
-  opacity: 0.7 !important;
-}
-.Toastify__close-button:hover {
-  opacity: 1 !important;
-  color: #64748b !important;
-}
+.Toastify__close-button { color: #64748b !important; opacity: 0.7 !important; }
+.Toastify__close-button:hover { opacity: 1 !important; color: #94a3b8 !important; }
