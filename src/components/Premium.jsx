@@ -9,18 +9,27 @@ import { addUser } from '../utils/userSlice';
 
 const Premium = () => {
     const [isPremium, setIsPremium] = useState(false);
+    const [isProcessing, setIsProcessing] = useState(false);
 
     const dispatch = useDispatch();
 
-    const verifyPremium = async () => {
+    const verifyPremium = async (retryCount = 0) => {
         try {
             const res = await axios.get(BASE_URL + "/user/premium/verify", { withCredentials: true });
             if (res.data.isPremium) {
                 setIsPremium(true);
+                setIsProcessing(false);
                 dispatch(addUser(res.data));
+            } else if (isProcessing && retryCount < 10) {
+                // Polling for up to 20 seconds after payment
+                setTimeout(() => verifyPremium(retryCount + 1), 2000);
+            } else if (isProcessing) {
+                setIsProcessing(false);
+                toast.error("Verification taking longer than expected. Please refresh the page.");
             }
         } catch (error) {
             console.log(error);
+            if (isProcessing) setIsProcessing(false);
         }
     }
 
@@ -42,7 +51,9 @@ const Premium = () => {
                 order_id: order.id,
                 handler: async function (response) {
                     toast.success("Payment Received!! Verifying membership...");
-                    verifyPremium();
+                    setIsProcessing(true);
+                    // Start polling
+                    setTimeout(() => verifyPremium(), 1500);
                 },
                 prefill: {
                     name: "DevTinder User",
@@ -56,6 +67,42 @@ const Premium = () => {
         } catch (error) {
             toast.error("Failed to initiate payment");
         }
+    }
+
+    if (isProcessing) {
+        return (
+            <div className="min-h-[calc(100vh-80px)] flex flex-col items-center justify-center p-6 text-center">
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="glass-panel p-10 sm:p-16 flex flex-col items-center max-w-lg relative overflow-hidden"
+                >
+                    <div className="absolute -top-24 -right-24 w-48 h-48 bg-red-500/10 rounded-full blur-3xl" />
+                    <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-red-900/10 rounded-full blur-3xl" />
+                    
+                    <div className="relative mb-8">
+                        <motion.div
+                            animate={{ rotate: 360 }}
+                            transition={{ repeat: Infinity, duration: 2, ease: "linear" }}
+                            className="w-24 h-24 border-4 border-red-500/20 border-t-red-500 rounded-full"
+                        />
+                        <Zap className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 text-red-500 animate-pulse" />
+                    </div>
+                    
+                    <h1 className="text-3xl font-black text-slate-100 mb-4 tracking-tight">Stay Tuned!</h1>
+                    <h2 className="text-xl font-bold gradient-text mb-6">Something's Cooking... 🍳</h2>
+                    
+                    <p className="text-slate-400 text-lg leading-relaxed mb-8">
+                        We're currently verifying your payment with Razorpay. You'll be upgraded to <span className="text-red-400 font-bold">Premium</span> in just a few moments.
+                    </p>
+                    
+                    <div className="flex items-center gap-3 text-sm text-zinc-500 font-medium">
+                        <div className="loading loading-dots loading-xs text-red-500"></div>
+                        <span>Finalizing your VIP status</span>
+                    </div>
+                </motion.div>
+            </div>
+        )
     }
 
     if (isPremium) {
