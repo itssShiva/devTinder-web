@@ -30,7 +30,7 @@ const Login = () => {
       navigate('/');
       window.location.reload();
     } catch (err) {
-      const msg = err.response?.data || err.message || "Something went wrong.";
+      const msg = err.response?.data?.message || err.response?.data || err.message || "Something went wrong.";
       setError(typeof msg === 'string' ? msg : "Invalid credentials. Please try again.");
     } finally {
       setIsLoading(false);
@@ -93,7 +93,7 @@ const Login = () => {
                 onChange={(e) => { setPassword(e.target.value); setError(""); }}
                 onKeyDown={(e) => e.key === 'Enter' && clickHandler()} />
               <button type="button" onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-red-400 transition-colors">
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-red-400 transition-colors z-10">
                 {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
               </button>
             </div>

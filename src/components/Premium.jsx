@@ -26,15 +26,15 @@ const Premium = () => {
     const handleBuyMembership = async (type) => {
         try {
             const res = await axios.post(BASE_URL + "/payment/create", { membershipType: type }, { withCredentials: true });
-            const { amount, orderId, currency, keyId, notes } = res.data;
+            const { order, key } = res.data;
 
             const options = {
-                key: keyId,
-                amount,
-                currency,
+                key: key,
+                amount: order.amount,
+                currency: order.currency,
                 name: "DevTinder Premium",
                 description: type + " Membership",
-                order_id: orderId,
+                order_id: order.id,
                 handler: async function (response) {
                     toast.success("Payment Received!! Verifying membership...");
                     verifyPremium();
