@@ -5,11 +5,12 @@ import axios from "axios";
 import { BASE_URL } from "../utils/Constant";
 import { removeUser } from "../utils/userSlice";
 import { toast } from "react-toastify";
-import { Home, User as UserIcon, Users, Bell, Star, LogOut, Code2 } from "lucide-react";
+import { Home, User as UserIcon, Users, Bell, Star, LogOut, Code2, Crown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const Navbar = () => {
   const user = useSelector((store) => store.user);
+  const requests = useSelector((store) => store.request);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [scrolled, setScrolled] = useState(false);
@@ -70,19 +71,33 @@ const Navbar = () => {
                   </div>
                 </div>
 
-                <ul
+                 <ul
                   tabIndex={0}
+                  onClick={() => document.activeElement.blur()}
                   className="menu menu-sm dropdown-content bg-zinc-950/95 backdrop-blur-xl border border-red-500/10 rounded-2xl z-[100] mt-4 w-56 p-3 shadow-[0_16px_48px_rgba(0,0,0,0.7),_0_0_0_1px_rgba(239,68,68,0.08)] gap-1"
                 >
-                  <div className="px-4 py-3 mb-2 border-b border-zinc-800">
-                    <p className="font-semibold text-sm truncate text-slate-100">{user.firstName} {user.lastName}</p>
-                    <p className="text-xs text-slate-500 truncate">Developer</p>
+                   <div className="px-4 py-3 mb-2 border-b border-zinc-800">
+                    <div className="flex items-center gap-2">
+                      <p className="font-semibold text-sm truncate text-slate-100">{user.firstName} {user.lastName}</p>
+                      {user.isPremium && <Crown className="w-3.5 h-3.5 text-amber-500 fill-amber-500/20" />}
+                    </div>
+                    <p className="text-xs text-slate-500 truncate">{user.isPremium ? 'Premium ' : ''}Developer</p>
                   </div>
                   <li><Link to={'/'} className="hover:bg-red-500/10 hover:text-red-400 text-slate-300 rounded-xl py-2.5 transition-colors"><Home className="w-4 h-4 mr-2" />Home</Link></li>
                   <li><Link to={'/profile'} className="hover:bg-red-500/10 hover:text-red-400 text-slate-300 rounded-xl py-2.5 transition-colors"><UserIcon className="w-4 h-4 mr-2" />Profile</Link></li>
                   <li><Link to={'/connections'} className="hover:bg-red-500/10 hover:text-red-400 text-slate-300 rounded-xl py-2.5 transition-colors"><Users className="w-4 h-4 mr-2" />Connections</Link></li>
-                  <li><Link to={'/requests'} className="hover:bg-red-500/10 hover:text-red-400 text-slate-300 rounded-xl py-2.5 transition-colors"><Bell className="w-4 h-4 mr-2" />Requests</Link></li>
-                  <li><Link to={'/premium'} className="hover:bg-amber-500/10 hover:text-amber-400 text-slate-300 rounded-xl py-2.5 transition-colors"><Star className="w-4 h-4 mr-2" />Premium</Link></li>
+                   <li>
+                    <Link to={'/requests'} className="flex justify-between hover:bg-red-500/10 hover:text-red-400 text-slate-300 rounded-xl py-2.5 transition-colors">
+                      <span className="flex items-center"><Bell className="w-4 h-4 mr-2" />Requests</span>
+                      {requests.length > 0 && <span className="badge badge-sm badge-error font-bold">{requests.length}</span>}
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to={'/premium'} className="flex justify-between hover:bg-amber-500/10 hover:text-amber-400 text-slate-300 rounded-xl py-2.5 transition-colors">
+                      <span className="flex items-center"><Star className="w-4 h-4 mr-2" />Premium</span>
+                      {user.isPremium && <span className="badge badge-sm badge-warning font-bold text-[10px]">VIP</span>}
+                    </Link>
+                  </li>
                   <div className="divider my-1 h-[1px] bg-zinc-800" />
                   <li><button onClick={handleLogout} className="text-red-400 hover:bg-red-900/20 hover:text-red-300 rounded-xl py-2.5 transition-colors w-full text-left flex items-center"><LogOut className="w-4 h-4 mr-2" />Logout</button></li>
                 </ul>

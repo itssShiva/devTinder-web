@@ -4,15 +4,20 @@ import { BASE_URL } from '../utils/Constant';
 import { motion } from 'framer-motion';
 import { Check, Star, ShieldCheck, Zap, Crown } from 'lucide-react';
 import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
+import { addUser } from '../utils/userSlice';
 
 const Premium = () => {
     const [isPremium, setIsPremium] = useState(false);
+
+    const dispatch = useDispatch();
 
     const verifyPremium = async () => {
         try {
             const res = await axios.get(BASE_URL + "/user/premium/verify", { withCredentials: true });
             if (res.data.isPremium) {
                 setIsPremium(true);
+                dispatch(addUser(res.data));
             }
         } catch (error) {
             console.log(error);
