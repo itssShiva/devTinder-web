@@ -79,7 +79,7 @@ const Premium = () => {
                 >
                     <div className="absolute -top-24 -right-24 w-48 h-48 bg-red-500/10 rounded-full blur-3xl" />
                     <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-red-900/10 rounded-full blur-3xl" />
-                    
+
                     <div className="relative mb-8">
                         <motion.div
                             animate={{ rotate: 360 }}
@@ -88,14 +88,14 @@ const Premium = () => {
                         />
                         <Zap className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 text-red-500 animate-pulse" />
                     </div>
-                    
+
                     <h1 className="text-3xl font-black text-slate-100 mb-4 tracking-tight">Stay Tuned!</h1>
                     <h2 className="text-xl font-bold gradient-text mb-6">Something's Cooking... 🍳</h2>
-                    
+
                     <p className="text-slate-400 text-lg leading-relaxed mb-8">
                         We're currently verifying your payment with Razorpay. You'll be upgraded to <span className="text-red-400 font-bold">Premium</span> in just a few moments.
                     </p>
-                    
+
                     <div className="flex items-center gap-3 text-sm text-zinc-500 font-medium">
                         <div className="loading loading-dots loading-xs text-red-500"></div>
                         <span>Finalizing your VIP status</span>
@@ -119,11 +119,11 @@ const Premium = () => {
                     </div>
                     <h1 className="text-4xl font-black text-slate-100 mb-4 tracking-tight">Stay Tuned!</h1>
                     <h2 className="text-2xl font-bold gradient-text mb-6">Something is Cooking for you... 🍳</h2>
-                    
+
                     <p className="text-slate-300 text-lg mb-8 leading-relaxed max-w-xs">
                         Thank you for your support! We're preparing exclusive features just for our <span className="text-red-400 font-bold">Premium</span> members.
                     </p>
-                    
+
                     <div className="flex items-center gap-3 text-sm text-amber-500 font-bold bg-amber-500/10 px-4 py-2 rounded-full border border-amber-500/20">
                         <Star className="w-4 h-4 fill-amber-500" />
                         <span>VIP STATUS ACTIVE</span>
@@ -160,7 +160,7 @@ const Premium = () => {
                     {/* Silver Plan */}
                     <PricingCard
                         title="Silver"
-                        price="1,000"
+                        price="300"
                         period="month"
                         features={["50 Swipes per day", "Standard View", "Basic Support", "Limited Chat"]}
                         icon={<Star className="w-6 h-6 text-zinc-400" />}
@@ -173,7 +173,7 @@ const Premium = () => {
                     {/* Gold Plan */}
                     <PricingCard
                         title="Gold"
-                        price="5,000"
+                        price="700"
                         period="3 months"
                         features={["Unlimited Swipes", "Verified Badge", "Priority in Feed", "Direct Messaging", "24/7 Support"]}
                         icon={<Crown className="w-7 h-7 text-amber-500" />}
