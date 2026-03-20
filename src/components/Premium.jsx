@@ -61,6 +61,11 @@ const Premium = () => {
                     contact: "9999999999",
                 },
                 theme: { color: "#ef4444" },
+                modal: {
+                    ondismiss: function () {
+                        toast.info("Payment cancelled");
+                    }
+                }
             };
             const rzp1 = new window.Razorpay(options);
             rzp1.open();
