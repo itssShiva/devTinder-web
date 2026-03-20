@@ -117,16 +117,16 @@ const Premium = () => {
                     <div className="w-24 h-24 bg-gradient-to-br from-amber-400 to-red-600 rounded-full flex items-center justify-center mb-8 shadow-[0_0_40px_rgba(245,158,11,0.3)]">
                         <Crown className="w-12 h-12 text-white" />
                     </div>
-                    <h1 className="text-4xl font-black gradient-text mb-4">You're a VIP!</h1>
-                    <p className="text-slate-300 text-lg mb-8 leading-relaxed">
-                        Enjoy your exclusive premium benefits and stand out in the community.
+                    <h1 className="text-4xl font-black text-slate-100 mb-4 tracking-tight">Stay Tuned!</h1>
+                    <h2 className="text-2xl font-bold gradient-text mb-6">Something is Cooking for you... 🍳</h2>
+                    
+                    <p className="text-slate-300 text-lg mb-8 leading-relaxed max-w-xs">
+                        Thank you for your support! We're preparing exclusive features just for our <span className="text-red-400 font-bold">Premium</span> members.
                     </p>
-                    <div className="grid grid-cols-2 gap-4 w-full text-left">
-                        {["Verified Badge", "Unlimited Swipes", "Priority Chat", "Ad-free"].map((feat, i) => (
-                            <div key={i} className="flex items-center gap-2 text-slate-400 font-medium">
-                                <ShieldCheck className="w-4 h-4 text-red-500" /> {feat}
-                            </div>
-                        ))}
+                    
+                    <div className="flex items-center gap-3 text-sm text-amber-500 font-bold bg-amber-500/10 px-4 py-2 rounded-full border border-amber-500/20">
+                        <Star className="w-4 h-4 fill-amber-500" />
+                        <span>VIP STATUS ACTIVE</span>
                     </div>
                 </motion.div>
             </div>
